@@ -24,6 +24,79 @@ public class Entrega1 {
 
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
+        int option1, numberMatch, option;
+        int[] vetor = new int[0];
+        do {
+            imprimeMenu();
+            option1 = teclado.nextInt();
+        } while (option1 != 1);
+
+        if (option1 == 1) {
+            vetor = initVetor();
+        }
+        do {
+            imprimeMenu();
+            option = teclado.nextInt();
+            switch (option) {
+                case 2:
+                    imprimeVetor(vetor);
+                    break;
+
+                case 3:
+                    System.out.println("Qual numero deseja buscar:");
+                    int numberX = teclado.nextInt();
+                    numberMatch = checkNumber(vetor, numberX);
+                    if (numberMatch == 1) {
+                        System.out.print(numberX + "  foi encontrado ");
+                    } else {
+                        System.out.printf("d% nao Foi encontrado.\n", numberMatch);
+                    }
+                    break;
+
+                case 4:
+                    break;
+
+                case 5:
+
+                    break;
+
+                case 6:
+                    break;
+
+                case 7:
+                    break;
+
+                case 8:
+                    break;
+                case 9:
+                    System.out.print("\n Encerrando..\n");
+                    break;
+
+                default:
+                    break;
+
+            }
+        } while (option != 9);
+
+    }
+    //inicia vetor com tamanho informado, e numeros aleatorios
+
+    public static int[] initVetor() {
+        int m;
+        Scanner teclado = new Scanner(System.in);
+        System.out.print("\nQual o tamanho:\n");
+        int n = Integer.parseInt(teclado.next());
+        int vetor[] = new int[n];
+        System.out.print("\nLimitador de numeros:\n");
+        m = teclado.nextInt();
+        Random gerador = new Random();
+        for (int i = 0; i < vetor.length; i++) {
+            vetor[i] = gerador.nextInt(m + 1);
+        }
+        return vetor;
+    }
+
+    public static void imprimeMenu() {
         System.out.print("Menu:");
         System.out.print("\n1.Inicializar o vetor com numero aleatorios");
         System.out.print("\n2.Imprimir o vetor");
@@ -33,56 +106,8 @@ public class Entrega1 {
         System.out.print("\n6.Calcular o percentual dos numero impares armazenados no vetor");
         System.out.print("\n7.Calcula a media centralizada dos numero armazenados no vetor");
         System.out.print("\n8.dois numero em posicoes distintas ");
+        System.out.print("\n9. Fechar programa ");
         System.out.print("\n(Informe a Opcao desejada com seu numero) \n");
-        int option = teclado.nextInt();
-        switch (option) {
-            case 1: {
-                int m;
-                System.out.print("\nQual o tamanho:\n");
-                int n = Integer.parseInt(teclado.next());
-                int vetor[] = new int[n];
-                System.out.print("\nLimitador de numeros:\n");
-                m = teclado.nextInt();
-                Random gerador = new Random(m);
-                for (int i = 0; i < vetor.length; i++) {
-                    vetor[i] = gerador.nextInt();
-                }
-
-                break;
-            }
-
-            case 2: {
-                imprimeVetor(vetor);
-                break;
-            }
-            case 3: {
-                checkNumber(vetor);
-                break;
-            }
-            case 4: {
-
-                break;
-            }
-            case 5: {
-
-                break;
-            }
-            case 6: {
-
-                break;
-            }
-            case 7: {
-
-                break;
-            }
-            case 8: {
-
-                break;
-            }
-            default: {
-                break;
-            }
-        }
     }
 
     public static void imprimeVetor(int[] vetor) {
@@ -91,13 +116,20 @@ public class Entrega1 {
             System.out.println(vetor[i]);
         }
     }
+    // Procura numero contido no vetor
 
-    public static void checkNumber(int[] vetor) {
-        int x = 0;
+    public static int checkNumber(int vetor[], int numberX) {
+        Scanner teclado = new Scanner(System.in);
+
         for (int i = 0; i < vetor.length; i++) {
-            if (vetor[i] == x) {
-                System.out.print("\nO numero:" + x + " foi encontrado\n");
+            if (vetor[i] == numberX) {
+                numberX = 1;
+            } else {
+                numberX = -1;
             }
         }
+
+        int checked = numberX;
+        return checked;
     }
 }
