@@ -25,83 +25,83 @@ public class Entrega1 {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         boolean numberChecked;
-        int firstOption, index, option;
-        int[] vetor = new int[0];
-       do {
-           
-           imprimeMenu();
+        int firstOption, index, tamanhoVetor, limitadorRandom, option;
+
+        do {
+            imprimeMenu();
             firstOption = teclado.nextInt();
         } while (firstOption != 1);
 
         if (firstOption == 1) {
-            vetor = initVetor();
+
+            System.out.print("\nQual o tamanho:\n");
+            tamanhoVetor = Integer.parseInt(teclado.next());
+            int vetor[] = new int[tamanhoVetor];
+            System.out.print("\nLimitador de numeros:\n");
+            limitadorRandom = teclado.nextInt();
+            vetor = initVetor(vetor, tamanhoVetor, limitadorRandom);
+
+            do {
+
+                imprimeMenu();
+                option = teclado.nextInt();
+                switch (option) {
+
+                    case 2:
+                        imprimeVetor(vetor);
+                        break;
+                    case 3:
+                        System.out.print("Qual numero deseja buscar:");
+                        int numberX = teclado.nextInt();
+                        index = checkNumber(vetor, numberX);
+                        if (index == -1) {
+                            System.out.printf("Nao Foi encontrado: %d\n", numberX);
+                        } else {
+                            System.out.printf("%d  Foi encontrado O indice e: %d \n", numberX, index);
+                        }
+                        break;
+
+                    case 4:
+                        System.out.printf("Maior numero e: %d \n", majorNumber(vetor));
+
+                        break;
+
+                    case 5:
+                   System.out.printf("A media dos numeros pares e: %.2f\n", avaregeEven(vetor));
+                        break;
+
+                    case 6:
+                               System.out.printf("A media dos numeros pares e: %.2f\n", avaregeOdd(vetor));
+
+                        break;
+                    case 7:
+                        System.out.print("Media centralizada e: "+centerAvarege(vetor)+"\n");
+                        break;
+                    case 8:
+                        System.out.print("Qual numero deseja somar :\n");
+                        numberX = teclado.nextInt();
+                        numberChecked = sumNumbers(vetor, numberX);
+                        System.out.printf("%b%n ", numberChecked);
+                        break;
+                    case 9:
+                        System.out.print("\n Encerrando..\n");
+                        break;
+
+                    default:
+                        break;
+
+                }
+            } while (option != 9);
+
         }
-        do {
-            
-            imprimeMenu();
-            option = teclado.nextInt();
-            switch (option) {
-                case 2:
-                    imprimeVetor(vetor);
-                    break;
-
-                case 3:
-                    System.out.print("Qual numero deseja buscar:");
-                    int numberX = teclado.nextInt();
-                    index = checkNumber(vetor, numberX);
-
-                    if (index == -1) {
-                             System.out.printf("Nao Foi encontrado: %d\n", numberX);
-                    } else {
-                        System.out.printf("%d  Foi encontrado O indice e: %d \n", numberX, index);
-                    }
-                    break;
-
-                case 4:
-                    System.out.printf("Maior numero e: %d \n", majorNumber(vetor));
-
-                    break;
-
-                case 5:
-                    System.out.printf("Percentual: %d \n", avaregeEven(vetor));
-                    break;
-
-                case 6:
-                    System.out.printf("Percentual: %d \n", avaregeOdd(vetor));
-                    break;
-                case 7:
-
-                    break;
-                case 8:
-                    System.out.print("Qual numero deseja somar :\n");
-                    numberX = teclado.nextInt();
-                    numberChecked = sumNumbers(vetor, numberX);
-                    System.out.printf("%b%n   ",numberChecked);
-                    break;
-                case 9:
-                    System.out.print("\n Encerrando..\n");
-                    break;
-
-                default:
-                    break;
-
-            }
-        } while (option != 9);
-
     }
 
     //1.inicia vetor com tamanho informado, e numeros aleatorios
-    public static int[] initVetor() {
-        int m;
-        Scanner teclado = new Scanner(System.in);
-        System.out.print("\nQual o tamanho:\n");
-        int n = Integer.parseInt(teclado.next());
-        int vetor[] = new int[n];
-        System.out.print("\nLimitador de numeros:\n");
-        m = teclado.nextInt();
+    public static int[] initVetor(int vetor[], int tamanhoVetor, int limitadorVetor) {
+
         Random gerador = new Random();
         for (int i = 0; i < vetor.length; i++) {
-            vetor[i] = gerador.nextInt(m + 1);
+            vetor[i] = gerador.nextInt(limitadorVetor + 1);
         }
         return vetor;
     }
@@ -135,50 +135,90 @@ public class Entrega1 {
         return major;
     }
 
-    //media impares
-    public static int avaregeOdd(int vetor[]) {
-        int avarege = 0;
-        for (int i = 0; i < vetor.length; i++) {
-            if (i % 2 != 0) {
-                avarege++;
-            }
+    //5.media pares
+    public static double avaregeEven(int vetor[]) {
+        int even = 0;
+        int countEven = 0;
 
+        for (int i = 0; i < vetor.length; i++) {
+
+            if (vetor[i] % 2 == 0) {
+                even += vetor[i];
+                countEven++;
+
+            }
         }
-        avarege = avarege / avarege;
-        return avarege * 100;
+        if (countEven == 0) {
+            System.out.print("Nao ha numeros pares no vetor.");
+            return 0.0;
+        }
+
+        double avaregeEven = (double) even / countEven;
+        return avaregeEven;
+    }
+    //6.media impares
+
+    public static double avaregeOdd(int vetor[]) {
+         int odd = 0;
+        int countOdd = 0;
+
+        for (int i = 0; i < vetor.length; i++) {
+
+            if (vetor[i] % 2 == 0) {
+                odd += vetor[i];
+                countOdd++;
+
+            }
+        }
+        if (countOdd == 0) {
+            System.out.print("Nao ha numeros pares no vetor.");
+            return 0.0;
+        }
+
+        double avaregeOdd = (double) odd / countOdd;
+        return avaregeOdd;
     }
 
-    //media pares
-    public static int avaregeEven(int vetor[]) {
-        int avarege = 0;
-        for (int i = 0; i < vetor.length; i++) {
-            if (i % 2 == 0) {
-                avarege++;
-            }
+    //7. calcula media centralizada do vetor
+    public static double centerAvarege(int vetor[]) {
 
+        if (vetor.length < 3) {
+            System.out.print("O vetor deve ter pelo menos 3 elementos para calcular a media centralizada.");
+            return 0.0;
         }
-        avarege = avarege / avarege;
-        return avarege * 100;
+
+        int soma = vetor[0];
+        int min = vetor[0];
+        int max = vetor[0];
+
+        for (int i = 0; i < vetor.length; i++) {
+            min = Math.min(min, vetor[i]);
+            max = Math.max(max, vetor[i]);
+        }
+        for (int i = 1; i < vetor.length; i++) {
+            soma += vetor[i];
+        }
+
+        double mediaCentralizada = (double) (soma - max - min) / (vetor.length - 2);
+        return mediaCentralizada;
     }
 
     //8. Soma dos numeros distintos
     public static boolean sumNumbers(int vetor[], int numberX) {
-        int sum=0;
-       boolean checked = false;
-            for (int i = 0; i < vetor.length; i++) {
-                if(sum!=numberX){
-                       
-                sum += vetor[i];
-                   }else{
-                       sum++;
-                   }
-                
+        int sum[] = new int[0];
+        boolean checked = false;
+        for (int i = 0; i < vetor.length; i++) {
+            for (int j = 0; j < vetor.length; j++) {
+                if (vetor[i] + vetor[j] == numberX) {
+                  
+                    checked = (vetor[i] + vetor[j] == numberX) ? true : false;
+
+                }
             }
-         
-        checked = (sum == numberX) ? true : false;
+        }
         return checked;
     }
-                                                                                                    
+
     //Função a parte para melhor reutilização do codigo
     public static void imprimeMenu() {
         System.out.print("Menu:");
